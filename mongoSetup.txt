@@ -1,0 +1,20 @@
+mongo
+use dcsp
+db.createUser(
+  {
+    user: "user",
+    pwd: "jilrej834t8ohq5guiha7q34th8",
+    roles: [
+       { role: "readWrite", db: "dcsp" }
+    ]
+  }
+)
+db.createUser(
+  {
+    user: "admin",
+    pwd: "nj5gqj9843tj8o3gio4GTJ8reg4QJ08",
+    roles: [
+       { role: "dbOwner", db: "dcsp" }
+    ]
+  }
+)
