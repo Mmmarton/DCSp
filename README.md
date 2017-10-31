@@ -10,7 +10,7 @@
 
 ## Project structure
 1. Backend - implemented in Java Spring
-2. Web interface - using angular2
+2. Web interface - typescript with angular2 and scss
 3. Mobile app - haven't decided on the technology used
 
 #### Additional documntation can be found in [docs](docs/)
