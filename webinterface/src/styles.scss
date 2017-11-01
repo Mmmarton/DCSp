@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import "./scss/colors";
+@import "../node_modules/milligram/src/milligram";
+
+.btn {
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+    color: #333;
+    font-size: 14px;
+}
+
+.btn-large {
+    width: 100%;
+}
+
+.container {
+    padding-top: 20px;
+}
+
+.pathInfo {
+    position: absolute; 
+    bottom: 0;
+}

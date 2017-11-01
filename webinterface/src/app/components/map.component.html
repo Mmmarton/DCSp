@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="column">
+        <h3>Device</h3>
+        <select [(ngModel)]="selectedDevice">
+            <option [ngValue]="device" *ngFor="let device of devices">{{device.deviceId}}</option>
+        </select>
+        <button class="btn btn-large" (click)="drawPath($event, selectedDevice)">Draw path</button>
+        {{selectedDevice?.deviceId}}
+        <div class="pathInfo">
+            <h3>Path info</h3>
+        </div>
+    </div>
+    <div class="column column-80">
+        <agm-map id="map" [latitude]="latitude" [longitude]="longitude">
+            <agm-polyline [strokeColor]="'#000'">
+                <ng-container *ngFor="let position of selectedDevice?.positions">
+                    <agm-polyline-point [latitude]="position.x" [longitude]="position.y"></agm-polyline-point>
+                </ng-container>
+            </agm-polyline>
+        </agm-map>
+    </div>
+</div>
