@@ -1,22 +1,42 @@
 <div class="row">
-    <div class="column">
+    <div class="column panel">
         <h3>Device</h3>
-        <select [(ngModel)]="selectedDevice" (change)="onDeviceChange()">
-            <option [ngValue]="device" *ngFor="let device of devices">{{device?.deviceId}}</option>
+        <select [(ngModel)]="selectedDeviceId" (change)="onDeviceIdChange()">
+            <option [ngValue]="deviceId" *ngFor="let deviceId of deviceIds">{{deviceId}}</option>
         </select>
         <div class="pathInfo">
-            <h3>Center</h3>
-            <h4><b>X: </b>{{latitude | number:'3.5-5'}}</h4>
-            <h4><b>Y: </b>{{longitude | number:'3.5-5'}}</h4>
+            <h4>
+                <table>
+                    <tr>
+                        <td>
+                            <b>Longitude: </b>
+                        </td>
+                        <td>
+                            {{latitude | number:'3.7-7' | sign}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <b>Latitude: </b>
+                        </td>
+                        <td>
+                            {{longitude | number:'3.7-7' | sign}}
+                        </td>
+                    </tr>
+                </table>
+            </h4>
+
         </div>
     </div>
-    <div class="column column-80">
-        <agm-map id="map" [latitude]="latitude" [longitude]="longitude">
-            <agm-polyline [strokeColor]="'#000'">
-                <ng-container *ngFor="let position of selectedDevice?.positions">
-                    <agm-polyline-point [latitude]="position?.x" [longitude]="position?.y"></agm-polyline-point>
-                </ng-container>
-            </agm-polyline>
-        </agm-map>
+    <div class="column column-75">
+        <div class="map">
+            <agm-map id="map" [latitude]="latitude" [longitude]="longitude" [zoom]="12">
+                <agm-polyline [strokeColor]="'#f00'" [strokeWeight]="'2'" [strokeOpacity]="'0.5'">
+                    <ng-container *ngFor="let position of positions">
+                        <agm-polyline-point [latitude]="position?.x" [longitude]="position?.y"></agm-polyline-point>
+                    </ng-container>
+                </agm-polyline>
+            </agm-map>
+        </div>
     </div>
 </div>

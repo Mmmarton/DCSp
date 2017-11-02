@@ -1,3 +1,20 @@
 agm-map {
-    height: 500px;
+  height: 500px;
+}
+
+.map {
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.panel {
+  background: url(/assets/img/dust_scratches.png);
+  padding: 40px 20px 30px;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+select {
+  background-color: #fff;
+	&:focus {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" height="14" viewBox="0 0 29 14" width="29"><path fill="#a03f3f" d="M9.37727 3.625l5.08154 6.93523L19.54036 3.625"/></svg>');
   }
+}

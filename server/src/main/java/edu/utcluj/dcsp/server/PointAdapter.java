@@ -1,8 +1,8 @@
 package edu.utcluj.dcsp.server;
 
-public class PointAdapter {
+class PointAdapter {
 
-  public static Point toEntity(PointModel model) {
+  static Point toEntity(PointModel model) {
     Point entity = new Point();
     entity.setDeviceId(model.getDeviceId());
     entity.setX(model.getX());
@@ -10,7 +10,7 @@ public class PointAdapter {
     return entity;
   }
 
-  public static PointModel toModel(Point entity) {
+  static PointModel toModel(Point entity) {
     PointModel model = new PointModel();
     model.setId(entity.getId());
     model.setX(entity.getX());

@@ -6,11 +6,13 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { MapComponent } from './components/map.component';
+import { SignPipe } from './components/sign.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
+    SignPipe
   ],
   imports: [
     BrowserModule,

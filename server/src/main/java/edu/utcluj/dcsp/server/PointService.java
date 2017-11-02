@@ -1,31 +1,41 @@
 package edu.utcluj.dcsp.server;
 
-import java.time.Instant;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
-public class PointService {
+class PointService {
 
-  @Autowired
-  private PointRepository pointRepository;
+    @Autowired
+    private PointRepository pointRepository;
 
-  public List<Point> getPointsBetween(String id, long from, long to) {
-    return pointRepository.findBetween(id, Instant.ofEpochMilli(from), Instant.ofEpochMilli(to));
-  }
+    List<Point> getPointsBetween(String id, long from, long to) {
+        return pointRepository.findBetween(id, Instant.ofEpochMilli(from), Instant.ofEpochMilli(to));
+    }
 
-  public void save(Point point) {
-    point.setInstant(Instant.now());
-    pointRepository.save(point);
-  }
+    List<String> getAllDeviceIds() {
+        return pointRepository.findAll()
+                .stream()
+                .map(Point::getDeviceId)
+                .distinct()
+                .collect(Collectors.toList());
+    }
 
-  public void update(String id, Point point) {
-    point.setId(id);
-    pointRepository.save(point);
-  }
+    void save(Point point) {
+        point.setInstant(Instant.now());
+        pointRepository.save(point);
+    }
 
-  public void delete(String id) {
-    pointRepository.delete(id);
-  }
+    void update(String id, Point point) {
+        point.setId(id);
+        pointRepository.save(point);
+    }
+
+    void delete(String id) {
+        pointRepository.delete(id);
+    }
 }

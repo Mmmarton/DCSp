@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Point {
+class Point {
 
   @Id
   private String id;
@@ -14,46 +14,46 @@ public class Point {
   private double x;
   private double y;
 
-  public Point() {
+  Point() {
   }
 
-  public String getId() {
+  String getId() {
     return id;
   }
 
-  public void setId(String id) {
+  void setId(String id) {
     this.id = id;
   }
 
-  public String getDeviceId() {
+  String getDeviceId() {
     return deviceId;
   }
 
-  public void setDeviceId(String deviceId) {
+  void setDeviceId(String deviceId) {
     this.deviceId = deviceId;
   }
 
-  public Instant getInstant() {
+  Instant getInstant() {
     return instant;
   }
 
-  public void setInstant(Instant instant) {
+  void setInstant(Instant instant) {
     this.instant = instant;
   }
 
-  public double getX() {
+  double getX() {
     return x;
   }
 
-  public void setX(double x) {
+  void setX(double x) {
     this.x = x;
   }
 
-  public double getY() {
+  double getY() {
     return y;
   }
 
-  public void setY(double y) {
+  void setY(double y) {
     this.y = y;
   }
 }

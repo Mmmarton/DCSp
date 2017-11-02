@@ -1,13 +1,13 @@
 package edu.utcluj.dcsp.server;
 
-public class PointModel {
+class PointModel {
 
   private String deviceId;
   private String id;
   private double x;
   private double y;
 
-  public PointModel() {
+  PointModel() {
   }
 
   public String getDeviceId() {
