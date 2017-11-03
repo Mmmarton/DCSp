@@ -1,42 +1,58 @@
 <div class="row">
-    <div class="column panel">
-        <h3>Device</h3>
-        <select [(ngModel)]="selectedDeviceId" (change)="onDeviceIdChange()">
-            <option [ngValue]="deviceId" *ngFor="let deviceId of deviceIds">{{deviceId}}</option>
-        </select>
-        <div class="pathInfo">
-            <h4>
-                <table>
-                    <tr>
-                        <td>
-                            <b>Longitude: </b>
-                        </td>
-                        <td>
-                            {{latitude | number:'3.7-7' | sign}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <b>Latitude: </b>
-                        </td>
-                        <td>
-                            {{longitude | number:'3.7-7' | sign}}
-                        </td>
-                    </tr>
-                </table>
-            </h4>
+  <div class="column panel">
+    <mat-form-field class="wide">
+      <mat-select [(ngModel)]="selectedDeviceId" (change)="onCriteriaChange()" placeholder="device">
+        <mat-option *ngFor="let deviceId of deviceIds" [value]="deviceId">
+          {{ deviceId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-        </div>
+    <mat-form-field class="wide">
+      <input matInput [(ngModel)]="dateFrom" [matDatepicker]="datepickerFrom" (ngModelChange)="onCriteriaChange()" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="datepickerFrom"></mat-datepicker-toggle>
+      <mat-datepicker #datepickerFrom></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field class="wide">
+      <input matInput [(ngModel)]="dateTo" [matDatepicker]="datepickerTo" (ngModelChange)="onCriteriaChange()" placeholder="Choose a date">
+      <mat-datepicker-toggle matSuffix [for]="datepickerTo"></mat-datepicker-toggle>
+      <mat-datepicker #datepickerTo></mat-datepicker>
+    </mat-form-field>
+
+    <div class="pathInfo">
+      <h4>
+        <table>
+          <tr>
+            <td>
+              <b>Longitude: </b>
+            </td>
+            <td>
+              {{latitude | number:'3.7-7' | sign}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <b>Latitude: </b>
+            </td>
+            <td>
+              {{longitude | number:'3.7-7' | sign}}
+            </td>
+          </tr>
+        </table>
+      </h4>
     </div>
-    <div class="column column-75">
-        <div class="map">
-            <agm-map id="map" [latitude]="latitude" [longitude]="longitude" [zoom]="12">
-                <agm-polyline [strokeColor]="'#f00'" [strokeWeight]="'2'" [strokeOpacity]="'0.5'">
-                    <ng-container *ngFor="let position of positions">
-                        <agm-polyline-point [latitude]="position?.x" [longitude]="position?.y"></agm-polyline-point>
-                    </ng-container>
-                </agm-polyline>
-            </agm-map>
-        </div>
+  </div>
+  <div class="column column-75">
+    <div class="map">
+      <div class="messageBox" *ngIf="message">{{message}}</div>
+      <agm-map id="map" [latitude]="latitude" [longitude]="longitude" [zoom]="12">
+        <agm-polyline [strokeColor]="'#f00'" [strokeWeight]="'2'" [strokeOpacity]="'0.5'">
+          <ng-container *ngFor="let position of positions">
+            <agm-polyline-point [latitude]="position?.x" [longitude]="position?.y"></agm-polyline-point>
+          </ng-container>
+        </agm-polyline>
+      </agm-map>
     </div>
+  </div>
 </div>

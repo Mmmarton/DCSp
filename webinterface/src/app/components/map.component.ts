@@ -1,6 +1,7 @@
-import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
 import { Http } from '@angular/http';
+import { MatDatepicker, MatOption, MatSelect } from '@angular/material';
 
 import 'rxjs/add/operator/map';
 
@@ -17,8 +18,13 @@ export class MapComponent {
   http: Http;
   deviceIds;
   positions;
+  dateFrom: Date;
+  dateTo: Date;
+  message: String;
 
   constructor(http: Http) {
+    this.dateFrom = new Date();
+    this.dateTo = new Date();
     this.http = http;
     this.fetchDeviceIds();
   }
@@ -42,7 +48,7 @@ export class MapComponent {
     this.longitude = center.y;
   }
 
-  private onDeviceIdChange() {
+  private onCriteriaChange() {
     this.fetchPoints();
   }
 
@@ -57,12 +63,21 @@ export class MapComponent {
   }
 
   private fetchPoints() {
-    this.http.get('http://localhost:8080/api/points/' + this.selectedDeviceId + '/0/999999999999999999')
+    let dateTo = new Date();
+    dateTo.setDate(this.dateTo.getDate() + 1);
+    this.http.get('http://localhost:8080/api/points/' + this.selectedDeviceId + '/' + this.dateFrom.getTime() + '/' + dateTo.getTime())
       .map(res => res.json())
       .subscribe(positions => {
-        console.log(positions);
-        this.positions = positions;
-        this.updateMapCenter();
+        if (positions.length == 0) {
+          this.message = "No data found for device in given time period.";
+          this.latitude = 46.7712;
+          this.longitude = 23.6236;
+        }
+        else {
+          this.message = "";
+          this.positions = positions;
+          this.updateMapCenter();
+        }
       });
   }
 }
