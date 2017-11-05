@@ -28,6 +28,10 @@ export class MapComponent {
     this.http = http;
     this.fetchDeviceIds();
   }
+  
+  onCriteriaChange() {
+    this.fetchPoints();
+  }
 
   private calculateCenter(points) {
     let center = { x: 0, y: 0 };
@@ -46,10 +50,6 @@ export class MapComponent {
     let center = this.calculateCenter(this.positions);
     this.latitude = center.x;
     this.longitude = center.y;
-  }
-
-  private onCriteriaChange() {
-    this.fetchPoints();
   }
 
   private fetchDeviceIds() {
