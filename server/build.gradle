@@ -28,10 +28,17 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter') {
         exclude module: 'org.springframework.boot:spring-boot-starter-logging'
+        exclude module: "logback-classic"
     }
-    compile('org.springframework.boot:spring-boot-starter-log4j')
-    compile('org.springframework.boot:spring-boot-starter-data-mongodb')
-    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-log4j2')
+    compile('org.springframework.boot:spring-boot-starter-data-mongodb') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
+    compile('org.springframework.boot:spring-boot-starter-web') {
+        exclude module: "spring-boot-starter-logging"
+        exclude module: "logback-classic"
+    }
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
     testCompile('org.springframework.boot:spring-boot-starter-test')
