@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:visibility="visible"
-    tools:context="dcsp.utclus.edu.locationapp.MainActivity">
+    tools:context="dcsp.utcluj.edu.locationapp.MainActivity">
 
     <Button
         android:id="@+id/button"
@@ -15,6 +15,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="25dp"
+        android:enabled="false"
         android:onClick="onButtonClicked"
         android:text="Send Location"
         android:textSize="30sp" />
@@ -29,6 +30,7 @@
         android:layout_alignRight="@+id/button"
         android:layout_alignStart="@+id/button"
         android:layout_marginBottom="19dp"
+        android:enabled="false"
         android:onClick="onCheckboxClicked"
         android:text="Transmit periodically"
         android:textSize="18sp"
@@ -107,4 +109,19 @@
         android:layout_alignStart="@+id/latitude"
         android:text="Server IP"
         android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/connectingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/ipText"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignRight="@+id/ipText"
+        android:layout_alignStart="@+id/textView"
+        android:layout_centerVertical="true"
+        android:text="Connecting to GPS"
+        android:textColor="@color/colorPrimary"
+        android:textSize="30sp"
+        android:textStyle="bold" />
+
 </RelativeLayout>

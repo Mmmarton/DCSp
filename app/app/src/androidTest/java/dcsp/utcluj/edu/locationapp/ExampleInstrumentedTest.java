@@ -1,4 +1,4 @@
-package dcsp.utclus.edu.locationapp;
+package dcsp.utcluj.edu.locationapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
