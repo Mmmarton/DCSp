@@ -14,3 +14,5 @@
 3. Mobile app - build with [Android Studio](https://developer.android.com/studio/index.html)
 
 #### Additional documntation can be found in [docs](docs/)
+
+Licensed under Apache License 2.0 [view](LICENSE)
