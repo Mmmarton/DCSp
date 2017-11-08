@@ -15,127 +15,134 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    private boolean autoSend;
-    private Thread updateThread;
-    private Location location;
-    private String device_id;
+  private boolean autoSend;
+  private Thread updateThread;
+  private Location location;
+  private String device_id;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setupLocationService();
-        device_id = Settings.Secure.getString(this.getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
-        Log.i("deviceId", device_id);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    try {
+      super.onCreate(savedInstanceState);
+      setContentView(R.layout.activity_main);
+      setupLocationService();
+      device_id = Settings.Secure
+          .getString(this.getBaseContext().getContentResolver(), Settings.Secure.ANDROID_ID);
+      Log.i("deviceId", device_id);
     }
-
-    @SuppressLint("MissingPermission")
-    private void setupLocationService() {
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
+    catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 
-    private void postToServer() {
-        EditText editIP = findViewById(R.id.ipText);
-        String serverIP = editIP.getText().toString();
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("x", location.getLongitude());
-            postData.put("y", location.getLatitude());
-            postData.put("deviceId", device_id);
+  @SuppressLint("MissingPermission")
+  private void setupLocationService() {
+    LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 1, this);
+    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 1, this);
+  }
 
-            new ServerApi().execute("http://" + serverIP + ":8080/api/points", postData.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+  private void postToServer() {
+    EditText editIP = findViewById(R.id.ipText);
+    String serverIP = editIP.getText().toString();
+    JSONObject postData = new JSONObject();
+    try {
+      postData.put("x", location.getLatitude());
+      postData.put("y", location.getLongitude());
+      postData.put("deviceId", device_id);
+
+      new ServerApi().execute("http://" + serverIP + ":8080/api/points", postData.toString());
     }
-
-    @Override
-    protected void onDestroy() {
-        if (updateThread != null) {
-            updateThread.interrupt();
-        }
-        super.onDestroy();
+    catch (JSONException e) {
+      e.printStackTrace();
     }
+  }
 
-    public void onCheckboxClicked(View view) {
-        Button button = findViewById(R.id.button);
-        autoSend = ((CheckBox) view).isChecked();
-        button.setEnabled(!autoSend);
-        if (autoSend) {
-            activateUpdateThread();
-        }
+  @Override
+  protected void onDestroy() {
+    if (updateThread != null) {
+      updateThread.interrupt();
     }
+    super.onDestroy();
+  }
 
-    public void onButtonClicked(View view) {
-        sendCoordinates();
+  public void onCheckboxClicked(View view) {
+    Button button = findViewById(R.id.button);
+    autoSend = ((CheckBox) view).isChecked();
+    button.setEnabled(!autoSend);
+    if (autoSend) {
+      activateUpdateThread();
     }
+  }
 
-    private void sendCoordinates() {
-        postToServer();
-        EditText editLongitude = findViewById(R.id.editLongitude);
-        EditText editLatitude = findViewById(R.id.editLatitude);
-        editLongitude.setText(String.valueOf(location.getLongitude()));
-        editLatitude.setText(String.valueOf(location.getLatitude()));
+  public void onButtonClicked(View view) {
+    sendCoordinates();
+  }
+
+  private void sendCoordinates() {
+    postToServer();
+    EditText editLongitude = findViewById(R.id.editLongitude);
+    EditText editLatitude = findViewById(R.id.editLatitude);
+    editLongitude.setText(String.valueOf(location.getLongitude()));
+    editLatitude.setText(String.valueOf(location.getLatitude()));
+  }
+
+  private void activateUpdateThread() {
+    if (updateThread != null) {
+      updateThread.interrupt();
     }
-
-    private void activateUpdateThread() {
-        if (updateThread != null) {
-            updateThread.interrupt();
-        }
-        final Handler handler = new Handler();
-        updateThread = new Thread(new Runnable() {
+    final Handler handler = new Handler();
+    updateThread = new Thread(new Runnable() {
+      @Override
+      public void run() {
+        while (autoSend) {
+          handler.post(new Runnable() {
             @Override
             public void run() {
-                while (autoSend) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            sendCoordinates();
-                        }
-                    });
-
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
+              sendCoordinates();
             }
-        });
-        updateThread.start();
-    }
+          });
 
-    @Override
-    public void onLocationChanged(Location location) {
-        Button button = findViewById(R.id.button);
-        CheckBox checkBox = findViewById(R.id.checkBox);
-        TextView connectingText = findViewById(R.id.connectingText);
-        button.setEnabled(true);
-        checkBox.setEnabled(true);
-        connectingText.setVisibility(View.GONE);
-        Log.i("message", "l: " + location);
-        this.location = location;
-    }
+          try {
+            Thread.sleep(5000);
+          }
+          catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+    });
+    updateThread.start();
+  }
 
-    @Override
-    public void onProviderDisabled(String provider) {
-        Log.i("message", "on");
-    }
+  @Override
+  public void onLocationChanged(Location location) {
+    Button button = findViewById(R.id.button);
+    CheckBox checkBox = findViewById(R.id.checkBox);
+    TextView connectingText = findViewById(R.id.connectingText);
+    button.setEnabled(true);
+    checkBox.setEnabled(true);
+    connectingText.setVisibility(View.GONE);
+    Log.i("message", "l: " + location);
+    this.location = location;
+  }
 
-    @Override
-    public void onProviderEnabled(String provider) {
-        Log.i("message", "off");
-    }
+  @Override
+  public void onProviderDisabled(String provider) {
+    Log.i("message", "on");
+  }
 
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-    }
+  @Override
+  public void onProviderEnabled(String provider) {
+    Log.i("message", "off");
+  }
+
+  @Override
+  public void onStatusChanged(String provider, int status, Bundle extras) {
+  }
 }
