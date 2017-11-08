@@ -11,6 +11,6 @@
 ## Project structure
 1. Backend - implemented in Java Spring
 2. Web interface - typescript with angular2 and scss
-3. Mobile app - haven't decided on the technology used
+3. Mobile app - build with [Android Studio](https://developer.android.com/studio/index.html)
 
 #### Additional documntation can be found in [docs](docs/)
