@@ -1,0 +1,9 @@
+[submodule "dcsp-server"]
+	path = dcsp-server
+	url = https://github.com/NuttyYokel/dcsp-server
+[submodule "asdasd"]
+	path = asdasd
+	url = https://github.com/NuttyYokel/dcsp-server
+[submodule "server"]
+	path = server
+	url = https://github.com/NuttyYokel/dcsp-server
