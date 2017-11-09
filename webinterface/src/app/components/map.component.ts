@@ -53,7 +53,7 @@ export class MapComponent {
   }
 
   private fetchDeviceIds() {
-    this.http.get('http://localhost:8080/api/points/deviceIds')
+    this.http.get('https://localhost:8080/api/points/deviceIds')
       .map(res => res.json())
       .subscribe(deviceIds => {
         this.deviceIds = deviceIds;
@@ -65,7 +65,7 @@ export class MapComponent {
   private fetchPoints() {
     let dateTo = new Date();
     dateTo.setDate(this.dateTo.getDate() + 1);
-    this.http.get('http://localhost:8080/api/points/' + this.selectedDeviceId + '/' + this.dateFrom.getTime() + '/' + dateTo.getTime())
+    this.http.get('https://localhost:8080/api/points/' + this.selectedDeviceId + '/' + this.dateFrom.getTime() + '/' + dateTo.getTime())
       .map(res => res.json())
       .subscribe(positions => {
         if (positions.length == 0) {

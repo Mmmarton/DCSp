@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
       postData.put("y", location.getLongitude());
       postData.put("deviceId", device_id);
 
-      new ServerApi().execute("http://" + serverIP + ":8080/api/points", postData.toString());
+      new ServerApi().execute("http://" + serverIP + "/api/points", postData.toString());
     }
     catch (JSONException e) {
       e.printStackTrace();
