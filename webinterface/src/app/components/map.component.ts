@@ -1,13 +1,17 @@
 import { Component } from '@angular/core';
 import { AgmCoreModule } from '@agm/core';
-import { Http } from '@angular/http';
+import { Http, Response, RequestOptions, Headers } from '@angular/http';
 import { MatDatepicker, MatOption, MatSelect } from '@angular/material';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import 'rxjs/add/operator/map';
+import { RequestOptionsArgs } from '@angular/http/src/interfaces';
+import { LoginService } from "./login.service";
 
 @Component({
   selector: 'map-component',
   templateUrl: "map.component.html",
+  providers: [LoginService],
   styleUrls: ["map.component.scss"]
 })
 
@@ -21,14 +25,17 @@ export class MapComponent {
   dateFrom: Date;
   dateTo: Date;
   message: String;
+  login: LoginService;
+  username: string;
+  password: string;
 
-  constructor(http: Http) {
+  constructor(http: Http, login: LoginService) {
     this.dateFrom = new Date();
     this.dateTo = new Date();
     this.http = http;
-    this.fetchDeviceIds();
+    this.login = login;
   }
-  
+
   onCriteriaChange() {
     this.fetchPoints();
   }
@@ -52,8 +59,17 @@ export class MapComponent {
     this.longitude = center.y;
   }
 
+  private authenticate(username: string, password: string) {
+    this.login.authenticate(username, password, () => this.fetchDeviceIds(), () => this.failLogin());
+  }
+
+  private failLogin() {
+    this.username = "";
+    this.password = "";
+  }
+  
   private fetchDeviceIds() {
-    this.http.get('/api/points/deviceIds')
+    this.login.secureGet('/api/points/deviceIds')
       .map(res => res.json())
       .subscribe(deviceIds => {
         this.deviceIds = deviceIds;
@@ -65,7 +81,7 @@ export class MapComponent {
   private fetchPoints() {
     let dateTo = new Date();
     dateTo.setDate(this.dateTo.getDate() + 1);
-    this.http.get('/api/points/' + this.selectedDeviceId + '/' + this.dateFrom.getTime() + '/' + dateTo.getTime())
+    this.login.secureGet('/api/points/' + this.selectedDeviceId + '/' + this.dateFrom.getTime() + '/' + dateTo.getTime())
       .map(res => res.json())
       .subscribe(positions => {
         if (positions.length == 0) {

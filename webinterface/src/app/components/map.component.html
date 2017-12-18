@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="login.token">
   <div class="column panel">
     <mat-form-field class="wide">
       <mat-select [(ngModel)]="selectedDeviceId" (change)="onCriteriaChange()" placeholder="device">
@@ -54,5 +54,21 @@
         </agm-polyline>
       </agm-map>
     </div>
+  </div>
+</div>
+{{login.token}}
+<div class="row" *ngIf="!login.token">
+  <div class="column column-25"></div>
+  <div class="column panel column-50">
+
+    <mat-form-field class="wide">
+      <input matInput [(ngModel)]="username" placeholder="Username">
+    </mat-form-field>
+
+    <mat-form-field class="wide">
+      <input matInput [(ngModel)]="password" placeholder="Password">
+    </mat-form-field>
+
+    <button class="btn" (click)="authenticate(username, password)">Log In</button>
   </div>
 </div>
