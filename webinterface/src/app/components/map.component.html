@@ -60,13 +60,14 @@
 <div class="row" *ngIf="!login.token">
   <div class="column column-25"></div>
   <div class="column panel column-50">
+      <div class="loginMessage" *ngIf="message">{{message}}</div>
 
     <mat-form-field class="wide">
-      <input matInput [(ngModel)]="username" placeholder="Username">
+      <input matInput [(ngModel)]="username" placeholder="Username" (click)="hideMessage()">
     </mat-form-field>
 
     <mat-form-field class="wide">
-      <input matInput [(ngModel)]="password" placeholder="Password">
+      <input matInput type="password" [(ngModel)]="password" placeholder="Password" (click)="hideMessage()">
     </mat-form-field>
 
     <button class="btn" (click)="authenticate(username, password)">Log In</button>

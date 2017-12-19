@@ -27,6 +27,17 @@ agm-map {
   width: 100%;
 }
 
+.loginMessage {
+  background-color: rgba(250,90,90,0.7);
+  padding: 10px;
+  font-weight: bold;
+  position: absolute;
+  float:left;
+  width: calc(50% - 10px);
+  margin-left: -20px;
+  margin-top: -40px;
+}
+
 .wide {
   width: 100%;
 }

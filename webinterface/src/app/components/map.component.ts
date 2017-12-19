@@ -66,8 +66,13 @@ export class MapComponent {
   private failLogin() {
     this.username = "";
     this.password = "";
+    this.message = "Login failed";
   }
-  
+
+  private hideMessage() {
+    this.message = "";
+  }
+
   private fetchDeviceIds() {
     this.login.secureGet('/api/points/deviceIds')
       .map(res => res.json())
