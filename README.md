@@ -47,6 +47,12 @@
 
 ## Diagrams can be found in [docs](docs/)
 
-
+## Testing
+	No special testing was made. There are no unit- or integration test whatsoever.
+	While developing, the features were tested manually. No issues were found.
+	If you wish, you can test it. If any bug found, please report it. Thank you :)
+	
+## Deployment
+### The application can be found at [heroku](http://dcsp-server.herokuapp.com/)
 
 Licensed under Apache License 2.0 [view](LICENSE)
